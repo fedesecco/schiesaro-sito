@@ -1,1 +1,12 @@
-<p>home-page works!</p>
+<!-- Option 1: Using a scrollable container (recommended) -->
+<div class="home-container" #scrollContainer (scroll)="onContainerScroll()">
+  <div class="content">
+    <h1 class="main-title">Skiesaren Arkitekten</h1>
+
+    <div class="card-grid">
+      @for(color of COLORS; track $index){
+      <div class="card" [style.background-color]="color"></div>
+      }
+    </div>
+  </div>
+</div>
