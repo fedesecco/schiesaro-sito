@@ -26,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Build Angular app
-        run: npm run build -- --base-href /my-angular-app/
+        run: npm run build -- --base-href /schiesaro-sito/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
