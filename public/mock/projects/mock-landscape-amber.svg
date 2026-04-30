@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2500 1000">
+  <rect width="2500" height="1000" fill="#e8ddcf" />
+  <rect x="88" y="80" width="2324" height="840" fill="#f3ede5" />
+  <rect x="88" y="80" width="560" height="840" fill="#d4b897" />
+  <rect x="648" y="80" width="860" height="448" fill="#b56d36" />
+  <rect x="648" y="528" width="860" height="392" fill="#f7f2ea" />
+  <rect x="1540" y="80" width="872" height="840" fill="#d89a5d" />
+  <path d="M742 392h664v458H742z" fill="#fff4e6" />
+  <rect x="1626" y="180" width="694" height="226" fill="#fff2df" opacity="0.5" />
+  <rect x="1650" y="506" width="310" height="278" fill="#925126" />
+  <rect x="1996" y="506" width="262" height="278" fill="#f7f2e5" />
+  <line x1="88" y1="876" x2="2412" y2="876" stroke="#7f614f" stroke-width="10" />
+  <text x="136" y="296" fill="#2a201b" font-family="Arial Black, Arial, sans-serif" font-size="170">KOPIO</text>
+  <text x="136" y="850" fill="#5f4638" font-family="Georgia, serif" font-size="52">mock landscape / amber</text>
+</svg>

@@ -1,0 +1,20 @@
+<section class="route-shell landing-page" (mousemove)="trackPointer($event)">
+  <div class="landing-page__accent" [style.transform]="accentTransform()"></div>
+
+  <div class="landing-page__inner">
+    <div class="landing-page__coordinates landing-page__coordinates--left">
+      <span>{{ latitude().major }}</span>
+      <span>{{ latitude().minor }}</span>
+    </div>
+
+    <a class="landing-page__title" routerLink="/home">
+      <span>{{ siteTitle }}</span>
+      <small>{{ landing.tagline }}</small>
+    </a>
+
+    <div class="landing-page__coordinates landing-page__coordinates--right">
+      <span>{{ longitude().major }}</span>
+      <span>{{ longitude().minor }}</span>
+    </div>
+  </div>
+</section>

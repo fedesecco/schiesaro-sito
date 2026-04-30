@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#b7cbe0" />
+      <stop offset="58%" stop-color="#d7e2ea" />
+      <stop offset="100%" stop-color="#f0eadf" />
+    </linearGradient>
+    <linearGradient id="field" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#8da46d" />
+      <stop offset="100%" stop-color="#637a4f" />
+    </linearGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#sky)" />
+  <rect y="662" width="1920" height="418" fill="url(#field)" />
+  <rect x="0" y="690" width="1920" height="390" fill="#8ba56d" opacity="0.25" />
+  <rect x="0" y="592" width="1920" height="152" fill="#aec0a3" opacity="0.35" />
+  <rect x="140" y="618" width="1640" height="10" fill="#d7d5c8" opacity="0.72" />
+  <rect x="140" y="624" width="1640" height="5" fill="#7c886c" opacity="0.5" />
+  <path d="M1020 460 1170 360 1310 460 1455 360 1595 460 1760 360 1920 400 1920 690 980 690 980 540Z" fill="#262b35" />
+  <path d="M560 512 720 390 860 512 960 512 960 690 540 690 540 560Z" fill="#2b3240" />
+  <path d="M700 390 860 390 790 270Z" fill="#1f2430" />
+  <path d="M1110 360 1310 360 1210 250Z" fill="#1f2430" />
+  <path d="M1455 360 1595 360 1525 245Z" fill="#1f2430" />
+  <path d="M1760 360 1920 400 1920 300 1842 210Z" fill="#1f2430" />
+  <rect x="570" y="514" width="126" height="176" fill="#0f1218" />
+  <rect x="760" y="520" width="98" height="98" fill="#d3c6b0" />
+  <rect x="1160" y="470" width="166" height="168" fill="#151b23" />
+  <rect x="1495" y="470" width="204" height="176" fill="#d6cbb9" opacity="0.82" />
+  <rect x="1495" y="470" width="204" height="176" fill="#ffffff" opacity="0.22" />
+  <rect x="168" y="760" width="24" height="82" fill="#5a4a3b" />
+  <circle cx="180" cy="744" r="24" fill="#52704a" />
+  <rect x="274" y="742" width="10" height="116" fill="#3c4d37" />
+  <circle cx="278" cy="724" r="32" fill="#5b764c" />
+  <circle cx="336" cy="710" r="40" fill="#5a7449" />
+  <circle cx="406" cy="692" r="34" fill="#5d764d" />
+  <circle cx="470" cy="708" r="38" fill="#617c51" />
+  <circle cx="1690" cy="242" r="90" fill="#cad6ca" opacity="0.34" />
+  <g fill="#d5dbde">
+    <circle cx="132" cy="856" r="4" />
+    <circle cx="166" cy="850" r="4" />
+    <circle cx="214" cy="842" r="4" />
+    <circle cx="268" cy="836" r="4" />
+    <circle cx="320" cy="848" r="4" />
+  </g>
+  <g fill="#4f5e48">
+    <rect x="0" y="742" width="1920" height="32" />
+    <rect x="0" y="846" width="1920" height="22" opacity="0.68" />
+  </g>
+  <g fill="#ebe4d7">
+    <rect x="111" y="879" width="52" height="101" rx="10" />
+    <rect x="182" y="870" width="48" height="110" rx="10" />
+    <rect x="252" y="864" width="50" height="116" rx="10" />
+    <rect x="326" y="882" width="46" height="98" rx="10" />
+    <rect x="392" y="874" width="52" height="106" rx="10" />
+  </g>
+  <text x="118" y="112" fill="#1c1b19" font-family="Georgia, serif" font-size="34">mock fullscreen still</text>
+</svg>

@@ -1,0 +1,41 @@
+<section class="route-shell about-page screen-scroll">
+  @let latitude = splitCoordinate(about.coordinates.latitude);
+  @let longitude = splitCoordinate(about.coordinates.longitude);
+
+  <header class="site-chrome site-chrome--static">
+    <div class="chrome-grid">
+      <span class="chrome-grid__left-major">{{ latitude.major }}</span>
+      <span class="chrome-grid__left-minor">{{ latitude.minor }}</span>
+      <a class="chrome-grid__brand" routerLink="/home">{{ siteTitle }}</a>
+      <span class="chrome-grid__right-major">{{ longitude.major }}</span>
+      <span class="chrome-grid__right-minor">{{ longitude.minor }}</span>
+    </div>
+  </header>
+
+  <div class="layout-grid about-page__content">
+    <div class="about-page__contacts">
+      @for (contact of about.contacts; track contact.email) {
+        <div class="about-page__contact">
+          <span>{{ contact.name }},</span>
+          <a href="mailto:{{ contact.email }}">{{ contact.email }}</a>
+          <a href="tel:{{ contact.phone }}">{{ contact.phone }}</a>
+        </div>
+      }
+    </div>
+
+    <div class="about-page__copy">
+      <p>{{ about.introduction }}</p>
+      <p>{{ about.body }}</p>
+    </div>
+  </div>
+
+  <footer class="about-page__footer">
+    <a href="mailto:{{ about.email }}">{{ about.email }}</a>
+    <div class="about-page__locations">
+      @for (city of about.cities; track city) {
+        <span>{{ city }}</span>
+      }
+    </div>
+    <span>{{ about.countryCode }}</span>
+  </footer>
+</section>
