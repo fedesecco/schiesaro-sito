@@ -1,6 +1,6 @@
 import { afterNextRender, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { projectsData, siteData } from '../../content/site.data';
+import { projectsData } from '../../content/site.data';
 import { splitCoordinate } from '../../shared/utils/coordinates';
 
 @Component({
@@ -13,8 +13,16 @@ export class HomePageComponent {
   private readonly scrollerRef = viewChild.required<ElementRef<HTMLElement>>('scroller');
 
   protected readonly cycleCopies = [0, 1, 2] as const;
-  protected readonly siteTitle = siteData.siteTitle;
-  protected readonly home = siteData.home;
+  protected readonly siteTitle = 'KOPIO OFFICE';
+  protected readonly home = {
+    coordinates: {
+      latitude: '45.793591',
+      longitude: '12.391915',
+    },
+    heroPoster: '/mock/media/home-video-still.svg',
+    heroLabel: 'Mock hero still for the fullscreen video area',
+    heroEyebrow: 'Mock video loop',
+  };
   protected readonly projects = projectsData;
   protected readonly splitCoordinate = splitCoordinate;
 

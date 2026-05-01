@@ -1,6 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { siteData } from '../../content/site.data';
 import { CoordinateParts } from '../../shared/utils/coordinates';
 
 @Component({
@@ -12,8 +11,11 @@ export class LandingPageComponent {
   private readonly pointerX = signal(0.5);
   private readonly pointerY = signal(0.5);
 
-  protected readonly siteTitle = siteData.siteTitle;
-  protected readonly landing = siteData.landing;
+  protected readonly siteTitle = 'KOPIO OFFICE';
+  protected readonly landing = {
+    latitude: '33.428956',
+    longitude: '6.870023',
+  };
   protected readonly latitude = computed(() =>
     this.buildCoordinateParts(this.landing.latitude, this.pointerY(), this.pointerX(), 0.032, 0.284),
   );

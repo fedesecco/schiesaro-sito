@@ -2,7 +2,7 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
-import { getProjectBySlug, siteData } from '../../content/site.data';
+import { getProjectBySlug } from '../../content/site.data';
 import { ProjectMedia } from '../../models/site-content.model';
 import { splitCoordinate } from '../../shared/utils/coordinates';
 
@@ -29,7 +29,7 @@ export class ProjectDetailPageComponent {
   );
   private readonly currentSlideIndex = signal(0);
 
-  protected readonly siteTitle = siteData.siteTitle;
+  protected readonly siteTitle = 'KOPIO OFFICE';
   protected readonly project = computed(() => getProjectBySlug(this.slug()));
   protected readonly slides = computed<DetailSlide[]>(() => {
     const project = this.project();
