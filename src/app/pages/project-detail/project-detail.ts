@@ -2,7 +2,7 @@ import { Component, computed, effect, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
-import { getProjectBySlug } from '../../content/site.data';
+import { getProjectBySlug } from '../../content/projects-data';
 import { ProjectMedia } from '../../models/site-content.model';
 import { splitCoordinate } from '../../shared/utils/coordinates';
 

@@ -1,4 +1,4 @@
-<div class="route-shell home-page screen-scroll" #scroller (scroll)="handleScroll()">
+<div class="route-shell home-page screen-scroll">
   @let homeLatitude = splitCoordinate(home.coordinates.latitude);
   @let homeLongitude = splitCoordinate(home.coordinates.longitude);
 
@@ -12,64 +12,62 @@
     </div>
   </header>
 
-  @for (copy of cycleCopies; track copy) {
-    <div class="home-page__cycle">
-      <section class="home-page__hero">
-          <div class="home-page__hero-media">
-          <img src="{{ home.heroPoster }}" alt="{{ home.heroLabel }}" />
+  <div class="home-page__cycle">
+    <section class="home-page__hero">
+        <div class="home-page__hero-media">
+        <img src="{{ home.heroPoster }}" alt="{{ home.heroLabel }}" />
+      </div>
+      <div class="home-page__hero-label">{{ home.heroEyebrow }}</div>
+    </section>
+
+    @for (project of projects; track project.slug) {
+      @let projectLatitude = splitCoordinate(project.coordinates.latitude);
+      @let projectLongitude = splitCoordinate(project.coordinates.longitude);
+
+      <section class="project-card">
+        <div class="project-card__sticky">
+          <div class="project-card__coordinates chrome-grid">
+            <span class="chrome-grid__left-major">{{ projectLatitude.major }}</span>
+            <span class="chrome-grid__left-minor">{{ projectLatitude.minor }}</span>
+            <span class="chrome-grid__right-major">{{ projectLongitude.major }}</span>
+            <span class="chrome-grid__right-minor">{{ projectLongitude.minor }}</span>
+          </div>
         </div>
-        <div class="home-page__hero-label">{{ home.heroEyebrow }}</div>
-      </section>
 
-      @for (project of projects; track project.slug) {
-        @let projectLatitude = splitCoordinate(project.coordinates.latitude);
-        @let projectLongitude = splitCoordinate(project.coordinates.longitude);
-
-        <section class="project-card">
-          <div class="project-card__sticky">
-            <div class="project-card__coordinates chrome-grid">
-              <span class="chrome-grid__left-major">{{ projectLatitude.major }}</span>
-              <span class="chrome-grid__left-minor">{{ projectLatitude.minor }}</span>
-              <span class="chrome-grid__right-major">{{ projectLongitude.major }}</span>
-              <span class="chrome-grid__right-minor">{{ projectLongitude.minor }}</span>
-            </div>
+        <div class="layout-grid project-card__body">
+          <div class="project-card__meta">
+            <button class="project-card__title" type="button" (click)="openProject(project.slug)">
+              {{ project.title }}
+            </button>
+            <span>{{ project.location }} ({{ project.country }})</span>
+            <span>{{ project.type }}</span>
+            <span>{{ project.area }}</span>
+            <span>Year {{ project.year }}</span>
+            <p>{{ project.teaser }}</p>
           </div>
 
-          <div class="layout-grid project-card__body">
-            <div class="project-card__meta">
-              <button class="project-card__title" type="button" (click)="openProject(project.slug)">
-                {{ project.title }}
+          <div class="project-gallery">
+            @for (image of project.images; track image.id; let imageIndex = $index) {
+              <button
+                class="project-gallery__item"
+                [class.is-primary]="imageIndex === 0"
+                [class.is-landscape]="image.orientation === 'landscape'"
+                [class.is-portrait]="image.orientation === 'portrait'"
+                type="button"
+                (click)="openProject(project.slug, imageIndex)"
+              >
+                <img
+                  class="project-gallery__image"
+                  [class.is-muted]="imageIndex > 0"
+                  src="{{ image.src }}"
+                  alt="{{ image.alt }}"
+                  loading="lazy"
+                />
               </button>
-              <span>{{ project.location }} ({{ project.country }})</span>
-              <span>{{ project.type }}</span>
-              <span>{{ project.area }}</span>
-              <span>Year {{ project.year }}</span>
-              <p>{{ project.teaser }}</p>
-            </div>
-
-            <div class="project-gallery">
-              @for (image of project.images; track image.id; let imageIndex = $index) {
-                <button
-                  class="project-gallery__item"
-                  [class.is-primary]="imageIndex === 0"
-                  [class.is-landscape]="image.orientation === 'landscape'"
-                  [class.is-portrait]="image.orientation === 'portrait'"
-                  type="button"
-                  (click)="openProject(project.slug, imageIndex)"
-                >
-                  <img
-                    class="project-gallery__image"
-                    [class.is-muted]="imageIndex > 0"
-                    src="{{ image.src }}"
-                    alt="{{ image.alt }}"
-                    loading="lazy"
-                  />
-                </button>
-              }
-            </div>
+            }
           </div>
-        </section>
-      }
-    </div>
-  }
+        </div>
+      </section>
+    }
+  </div>
 </div>
