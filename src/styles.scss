@@ -97,13 +97,8 @@ app-root,
 .site-chrome--sticky {
   position: sticky;
   top: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(247, 243, 236, 0.94) 0%,
-    rgba(247, 243, 236, 0.82) 72%,
-    rgba(247, 243, 236, 0) 100%
-  );
-  backdrop-filter: blur(12px);
+  background: transparent;
+  backdrop-filter: none;
 }
 
 .chrome-grid {
@@ -237,13 +232,19 @@ app-root,
   min-height: 100svh;
 }
 
+.home-page__hero-chrome {
+  position: sticky;
+  top: 0;
+  margin-bottom: calc(-1 * (var(--chrome-height) + var(--page-pad)));
+}
+
 .home-page__hero-media {
   min-height: 100svh;
   overflow: hidden;
 }
 
 .home-page__hero-media img {
-  width: 100%;
+  width: 100vw;
   height: 100svh;
   object-fit: cover;
   animation: slow-pan 18s ease-in-out infinite alternate;
@@ -267,20 +268,16 @@ app-root,
 
 .project-card__sticky {
   position: sticky;
-  top: var(--chrome-height);
+  top: 0;
   z-index: 12;
-  padding-top: 1rem;
-  background: linear-gradient(
-    to bottom,
-    rgba(247, 243, 236, 0.95) 0%,
-    rgba(247, 243, 236, 0.78) 70%,
-    rgba(247, 243, 236, 0) 100%
-  );
+  min-height: var(--chrome-height);
+  padding-top: var(--page-pad);
+  background: transparent;
 }
 
 .project-card__body {
   align-items: start;
-  padding-top: clamp(1.4rem, 3vw, 2.6rem);
+  padding-top: clamp(0.6rem, 1.6vw, 1.25rem);
 }
 
 .project-card__meta {
@@ -635,7 +632,7 @@ code {
   }
 
   .project-card__sticky {
-    top: var(--chrome-height);
+    top: 0;
   }
 
   .project-card__meta {

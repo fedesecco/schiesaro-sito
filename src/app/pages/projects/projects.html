@@ -1,73 +1,75 @@
-<div class="route-shell home-page screen-scroll">
+<div class="route-shell home-page screen-scroll" #scroller (scroll)="handleScroll()">
   @let homeLatitude = splitCoordinate(home.coordinates.latitude);
   @let homeLongitude = splitCoordinate(home.coordinates.longitude);
 
-  <header class="site-chrome site-chrome--sticky">
-    <div class="chrome-grid">
-      <span class="chrome-grid__left-major">{{ homeLatitude.major }}</span>
-      <span class="chrome-grid__left-minor">{{ homeLatitude.minor }}</span>
-      <a class="chrome-grid__brand" routerLink="/">{{ siteTitle }}</a>
-      <span class="chrome-grid__right-major">{{ homeLongitude.major }}</span>
-      <span class="chrome-grid__right-minor">{{ homeLongitude.minor }}</span>
-    </div>
-  </header>
+  @for (loopCopy of loopCopies; track loopCopy) {
+    <div class="home-page__cycle">
+      <section class="home-page__hero">
+        <header class="site-chrome site-chrome--sticky home-page__hero-chrome">
+          <div class="chrome-grid">
+            <span class="chrome-grid__left-major">{{ homeLatitude.major }}</span>
+            <span class="chrome-grid__left-minor">{{ homeLatitude.minor }}</span>
+            <a class="chrome-grid__brand" routerLink="/">{{ siteTitle }}</a>
+            <span class="chrome-grid__right-major">{{ homeLongitude.major }}</span>
+            <span class="chrome-grid__right-minor">{{ homeLongitude.minor }}</span>
+          </div>
+        </header>
 
-  <div class="home-page__cycle">
-    <section class="home-page__hero">
         <div class="home-page__hero-media">
-        <img src="{{ home.heroPoster }}" alt="{{ home.heroLabel }}" />
-      </div>
-      <div class="home-page__hero-label">{{ home.heroEyebrow }}</div>
-    </section>
-
-    @for (project of projects; track project.slug) {
-      @let projectLatitude = splitCoordinate(project.coordinates.latitude);
-      @let projectLongitude = splitCoordinate(project.coordinates.longitude);
-
-      <section class="project-card">
-        <div class="project-card__sticky">
-          <div class="project-card__coordinates chrome-grid">
-            <span class="chrome-grid__left-major">{{ projectLatitude.major }}</span>
-            <span class="chrome-grid__left-minor">{{ projectLatitude.minor }}</span>
-            <span class="chrome-grid__right-major">{{ projectLongitude.major }}</span>
-            <span class="chrome-grid__right-minor">{{ projectLongitude.minor }}</span>
-          </div>
+          <img src="{{ home.heroPoster }}" alt="{{ home.heroLabel }}" />
         </div>
-
-        <div class="layout-grid project-card__body">
-          <div class="project-card__meta">
-            <button class="project-card__title" type="button" (click)="openProject(project.slug)">
-              {{ project.title }}
-            </button>
-            <span>{{ project.location }} ({{ project.country }})</span>
-            <span>{{ project.type }}</span>
-            <span>{{ project.area }}</span>
-            <span>Year {{ project.year }}</span>
-            <p>{{ project.teaser }}</p>
-          </div>
-
-          <div class="project-gallery">
-            @for (image of project.images; track image.id; let imageIndex = $index) {
-              <button
-                class="project-gallery__item"
-                [class.is-primary]="imageIndex === 0"
-                [class.is-landscape]="image.orientation === 'landscape'"
-                [class.is-portrait]="image.orientation === 'portrait'"
-                type="button"
-                (click)="openProject(project.slug, imageIndex)"
-              >
-                <img
-                  class="project-gallery__image"
-                  [class.is-muted]="imageIndex > 0"
-                  src="{{ image.src }}"
-                  alt="{{ image.alt }}"
-                  loading="lazy"
-                />
-              </button>
-            }
-          </div>
-        </div>
+        <div class="home-page__hero-label">{{ home.heroEyebrow }}</div>
       </section>
-    }
-  </div>
+
+      @for (project of projects; track project.slug) {
+        @let projectLatitude = splitCoordinate(project.coordinates.latitude);
+        @let projectLongitude = splitCoordinate(project.coordinates.longitude);
+
+        <section class="project-card">
+          <div class="site-chrome project-card__sticky">
+            <div class="project-card__coordinates chrome-grid">
+              <span class="chrome-grid__left-major">{{ projectLatitude.major }}</span>
+              <span class="chrome-grid__left-minor">{{ projectLatitude.minor }}</span>
+              <span class="chrome-grid__right-major">{{ projectLongitude.major }}</span>
+              <span class="chrome-grid__right-minor">{{ projectLongitude.minor }}</span>
+            </div>
+          </div>
+
+          <div class="layout-grid project-card__body">
+            <div class="project-card__meta">
+              <button class="project-card__title" type="button" (click)="openProject(project.slug)">
+                {{ project.title }}
+              </button>
+              <span>{{ project.location }} ({{ project.country }})</span>
+              <span>{{ project.type }}</span>
+              <span>{{ project.area }}</span>
+              <span>Year {{ project.year }}</span>
+              <p>{{ project.teaser }}</p>
+            </div>
+
+            <div class="project-gallery">
+              @for (image of project.images; track image.id; let imageIndex = $index) {
+                <button
+                  class="project-gallery__item"
+                  [class.is-primary]="imageIndex === 0"
+                  [class.is-landscape]="image.orientation === 'landscape'"
+                  [class.is-portrait]="image.orientation === 'portrait'"
+                  type="button"
+                  (click)="openProject(project.slug, imageIndex)"
+                >
+                  <img
+                    class="project-gallery__image"
+                    [class.is-muted]="imageIndex > 0"
+                    src="{{ image.src }}"
+                    alt="{{ image.alt }}"
+                    loading="lazy"
+                  />
+                </button>
+              }
+            </div>
+          </div>
+        </section>
+      }
+    </div>
+  }
 </div>
