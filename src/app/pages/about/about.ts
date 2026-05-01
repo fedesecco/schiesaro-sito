@@ -3,11 +3,11 @@ import { RouterLink } from '@angular/router';
 import { splitCoordinate } from '../../shared/utils/coordinates';
 
 @Component({
-  selector: 'app-about-page',
+  selector: 'app-about',
   imports: [RouterLink],
-  templateUrl: './about-page.component.html',
+  templateUrl: './about.html',
 })
-export class AboutPageComponent {
+export class AboutComponent {
   protected readonly siteTitle = 'KOPIO OFFICE';
   protected readonly about = {
     coordinates: {

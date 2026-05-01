@@ -4,11 +4,11 @@ import { projectsData } from '../../content/site.data';
 import { splitCoordinate } from '../../shared/utils/coordinates';
 
 @Component({
-  selector: 'app-home-page',
+  selector: 'app-projects',
   imports: [RouterLink],
-  templateUrl: './home-page.component.html',
+  templateUrl: './projects.html',
 })
-export class HomePageComponent {
+export class ProjectsComponent {
   private readonly router = inject(Router);
   private readonly scrollerRef = viewChild.required<ElementRef<HTMLElement>>('scroller');
 

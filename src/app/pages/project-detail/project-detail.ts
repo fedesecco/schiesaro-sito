@@ -9,11 +9,11 @@ import { splitCoordinate } from '../../shared/utils/coordinates';
 type DetailSlide = { kind: 'text'; id: 'text' } | { kind: 'image'; id: string; image: ProjectMedia };
 
 @Component({
-  selector: 'app-project-detail-page',
+  selector: 'app-project-detail',
   imports: [RouterLink],
-  templateUrl: './project-detail-page.component.html',
+  templateUrl: './project-detail.html',
 })
-export class ProjectDetailPageComponent {
+export class ProjectDetailComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly slug = toSignal(this.route.paramMap.pipe(map((params) => params.get('slug'))), {

@@ -3,11 +3,11 @@ import { RouterLink } from '@angular/router';
 import { CoordinateParts } from '../../shared/utils/coordinates';
 
 @Component({
-  selector: 'app-landing-page',
+  selector: 'app-hero',
   imports: [RouterLink],
-  templateUrl: './landing-page.component.html',
+  templateUrl: './hero.html',
 })
-export class LandingPageComponent {
+export class HeroComponent {
   private readonly pointerX = signal(0.5);
   private readonly pointerY = signal(0.5);
 
