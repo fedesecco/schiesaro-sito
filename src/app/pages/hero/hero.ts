@@ -28,12 +28,6 @@ export class HeroComponent {
       0.216,
     ),
   );
-  protected readonly accentTransform = computed(() => {
-    const xOffset = (this.pointerX() - 0.5) * 5.2;
-    const yOffset = (this.pointerY() - 0.5) * 3.6;
-
-    return `translate3d(${xOffset.toFixed(2)}rem, ${yOffset.toFixed(2)}rem, 0)`;
-  });
 
   protected trackPointer(event: MouseEvent): void {
     this.pointerX.set(clamp(event.clientX / window.innerWidth));
