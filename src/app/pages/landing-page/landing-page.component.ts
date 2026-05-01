@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { siteData } from '../../core/content/site.data';
-import { splitCoordinate } from '../../shared/utils/coordinates';
+import { siteData } from '../../content/site.data';
+import { CoordinateParts } from '../../shared/utils/coordinates';
 
 @Component({
   selector: 'app-landing-page',
@@ -15,11 +15,15 @@ export class LandingPageComponent {
   protected readonly siteTitle = siteData.siteTitle;
   protected readonly landing = siteData.landing;
   protected readonly latitude = computed(() =>
-    splitCoordinate(this.buildCoordinate(this.landing.latitude, this.pointerY(), this.pointerX(), 0.284)),
+    this.buildCoordinateParts(this.landing.latitude, this.pointerY(), this.pointerX(), 0.032, 0.284),
   );
   protected readonly longitude = computed(() =>
-    splitCoordinate(
-      this.buildCoordinate(this.landing.longitude, 1 - this.pointerX(), this.pointerY(), 0.216),
+    this.buildCoordinateParts(
+      this.landing.longitude,
+      1 - this.pointerX(),
+      this.pointerY(),
+      0.028,
+      0.216,
     ),
   );
   protected readonly accentTransform = computed(() => {
@@ -44,6 +48,24 @@ export class LandingPageComponent {
     const offset = (primaryRatio - 0.5) * range + (secondaryRatio - 0.5) * range * 0.38;
 
     return (baseNumber + offset).toFixed(6);
+  }
+
+  private buildCoordinateParts(
+    baseValue: string,
+    primaryRatio: number,
+    secondaryRatio: number,
+    majorRange: number,
+    minorRange: number,
+  ): CoordinateParts {
+    const slowValue = this.buildCoordinate(baseValue, primaryRatio, secondaryRatio, majorRange);
+    const fastValue = this.buildCoordinate(baseValue, primaryRatio, secondaryRatio, minorRange);
+    const [slowWhole = '00', slowFraction = '000'] = slowValue.split('.');
+    const [, fastFraction = '000000'] = fastValue.split('.');
+
+    return {
+      major: `${slowWhole}.${slowFraction.slice(0, 3)}`,
+      minor: fastFraction.slice(3, 6),
+    };
   }
 }
 

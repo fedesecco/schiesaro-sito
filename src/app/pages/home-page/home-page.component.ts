@@ -1,6 +1,6 @@
 import { afterNextRender, Component, ElementRef, inject, viewChild } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { projectsData, siteData } from '../../core/content/site.data';
+import { projectsData, siteData } from '../../content/site.data';
 import { splitCoordinate } from '../../shared/utils/coordinates';
 
 @Component({

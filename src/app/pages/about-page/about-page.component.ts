@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { siteData } from '../../core/content/site.data';
+import { siteData } from '../../content/site.data';
 import { splitCoordinate } from '../../shared/utils/coordinates';
 
 @Component({

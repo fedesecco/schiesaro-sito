@@ -150,13 +150,11 @@ app-root,
 
 .landing-page {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   justify-content: center;
   overflow: hidden;
   padding: clamp(1.5rem, 3vw, 3rem);
-  background:
-    radial-gradient(circle at 70% 35%, rgba(213, 190, 148, 0.2), transparent 30%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(247, 243, 236, 1));
+  background: #fff;
 }
 
 .landing-page__accent {
@@ -179,7 +177,7 @@ app-root,
   z-index: 1;
   display: grid;
   grid-template-columns: minmax(12rem, 1fr) auto minmax(12rem, 1fr);
-  align-items: end;
+  align-items: center;
   width: 100%;
   gap: clamp(1rem, 2vw, 2rem);
 }
@@ -195,9 +193,8 @@ app-root,
 
 .landing-page__title {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 0.6rem;
+  justify-self: center;
   font-family: var(--display-font);
   font-size: clamp(4rem, 12vw, 10rem);
   font-weight: 900;
@@ -205,14 +202,6 @@ app-root,
   letter-spacing: -0.08em;
   text-align: center;
   text-transform: uppercase;
-}
-
-.landing-page__title small {
-  font-family: var(--body-font);
-  font-size: 0.88rem;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  text-transform: none;
 }
 
 .home-page {
@@ -592,19 +581,18 @@ code {
   }
 
   .landing-page {
-    align-items: flex-start;
+    align-items: center;
   }
 
   .landing-page__inner {
     grid-template-columns: 1fr;
-    align-items: start;
+    align-items: center;
     gap: 1.2rem;
-    padding-top: 20svh;
   }
 
   .landing-page__title {
-    align-items: flex-start;
-    text-align: left;
+    align-items: center;
+    text-align: center;
   }
 
   .landing-page__coordinates {
