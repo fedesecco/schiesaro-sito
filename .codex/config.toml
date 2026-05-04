@@ -2,3 +2,15 @@
 type = "stdio"
 command = "npx"
 args = ["-y", "@angular/cli", "mcp"]
+
+[mcp_servers.github]
+type = "stdio"
+command = "docker"
+args = [
+  "run",
+  "-i",
+  "--rm",
+  "-e",
+  "GITHUB_PERSONAL_ACCESS_TOKEN",
+  "ghcr.io/github/github-mcp-server"
+]
