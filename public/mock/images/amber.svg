@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 1000">
+  <rect width="1500" height="1000" fill="#c97f3c" />
+  <rect x="80" y="80" width="1340" height="840" fill="#f3d2a3" opacity="0.2" />
+  <rect x="150" y="190" width="330" height="520" fill="#f7e0bf" />
+  <rect x="620" y="190" width="520" height="220" fill="#f7e0bf" />
+  <rect x="620" y="490" width="520" height="220" fill="#f7e0bf" />
+  <text x="120" y="860" fill="#ffffff" font-family="Arial Black, Arial, sans-serif" font-size="108">AMBER</text>
+  <text x="120" y="930" fill="#ffffff" font-family="Georgia, serif" font-size="40">15 x 10</text>
+</svg>
