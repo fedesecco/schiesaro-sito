@@ -20,7 +20,7 @@ export class ProjectsComponent {
       latitude: '45.793591',
       longitude: '12.391915',
     },
-    heroPoster: '/mock/media/home-video-still.svg',
+    heroPoster: 'mock/media/home-video-still.svg',
     heroLabel: 'Mock hero still for the fullscreen video area',
     heroEyebrow: 'Mock video loop',
   };
