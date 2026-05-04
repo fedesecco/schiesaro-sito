@@ -2,53 +2,72 @@
   @if (project(); as project) {
     @let latitude = splitCoordinate(project.coordinates.latitude);
     @let longitude = splitCoordinate(project.coordinates.longitude);
-    @let slide = currentSlide();
-    @let imageSlide = currentImageSlide();
 
-    <div class="detail-page__surface" (click)="handleSurfaceClick($event)">
-      <header class="site-chrome site-chrome--static">
-        <div class="chrome-grid">
-          <span class="chrome-grid__left-major">{{ latitude.major }}</span>
-          <span class="chrome-grid__left-minor">{{ latitude.minor }}</span>
-          <a class="chrome-grid__brand" routerLink="/home">{{ siteTitle }}</a>
-          <span class="chrome-grid__right-major">{{ longitude.major }}</span>
-          <span class="chrome-grid__right-minor">{{ longitude.minor }}</span>
+    <div class="detail-page__surface">
+      <header class="site-chrome site-chrome--static detail-page__header">
+        <div class="detail-page__header-grid">
+          <div class="detail-page__coordinate detail-page__coordinate--left">
+            <span>{{ latitude.major }}</span>
+            <span>{{ latitude.minor }}</span>
+          </div>
+          <a class="detail-page__brand" routerLink="/home">{{ siteTitle }}</a>
+          <div class="detail-page__coordinate detail-page__coordinate--right">
+            <span>{{ longitude.major }}</span>
+            <span>{{ longitude.minor }}</span>
+          </div>
         </div>
       </header>
 
-      @if (slide?.kind === 'text') {
-        <div class="detail-page__content detail-page__content--text layout-grid">
-          <div class="detail-page__meta">
-            <span>{{ project.title }}</span>
-            <span>{{ project.location }} ({{ project.country }})</span>
-            <span>{{ project.type }}</span>
-            <span>{{ project.area }}</span>
-            <span>Year {{ project.year }}</span>
-          </div>
+      <div
+        class="detail-page__viewport"
+        #viewport
+        (click)="handleViewportClick($event)"
+        (pointerdown)="handleViewportPointerDown($event)"
+        (pointermove)="handleViewportPointerMove($event)"
+        (pointerup)="handleViewportPointerUp($event)"
+        (pointercancel)="handleViewportPointerUp($event)"
+        (scroll)="handleViewportScroll()"
+        (wheel)="handleViewportWheel($event)"
+      >
+        <div class="detail-page__track">
+          @for (slide of slides(); track trackSlide($index, slide); let slideIndex = $index) {
+            @if (slide.kind === 'text') {
+              <section class="detail-slide detail-slide--text" [attr.data-slide-index]="slideIndex">
+                <div class="detail-slide__text layout-grid">
+                  <div class="detail-page__meta">
+                    <span>{{ project.title }}</span>
+                    <span>{{ project.location }} ({{ project.country }})</span>
+                    <span>{{ project.type }}</span>
+                    <span>{{ project.area }}</span>
+                    <span>Year {{ project.year }}</span>
+                  </div>
 
-          <div class="detail-page__copy">
-            <p>{{ project.body }}</p>
-          </div>
+                  <div class="detail-page__copy">
+                    <p>{{ project.body }}</p>
+                  </div>
+                </div>
+              </section>
+            } @else {
+              <section
+                class="detail-slide detail-slide--image"
+                [class.is-portrait]="slide.image.orientation === 'portrait'"
+                [class.is-landscape]="slide.image.orientation === 'landscape'"
+                [attr.data-slide-index]="slideIndex"
+              >
+                <div class="detail-page__content detail-page__content--image">
+                  <figure class="detail-page__figure">
+                    <img src="{{ slide.image.src }}" alt="{{ slide.image.alt }}" />
+                  </figure>
+                </div>
+              </section>
+            }
+          }
         </div>
-      } @else if (imageSlide) {
-        <div
-          class="detail-page__content detail-page__content--image"
-          [class.is-portrait]="imageSlide.image.orientation === 'portrait'"
-          [class.is-landscape]="imageSlide.image.orientation === 'landscape'"
-        >
-          <figure class="detail-page__figure">
-            <img src="{{ imageSlide.image.src }}" alt="{{ imageSlide.image.alt }}" />
-          </figure>
-        </div>
-      }
-
-      <div class="detail-page__rail" [style.background-image]="railBackground()"></div>
+      </div>
 
       <footer class="detail-page__footer">
         <span>{{ currentSlideNumber() }}</span>
-        <button class="detail-page__advance" type="button" (click)="nextSlide(); $event.stopPropagation()">
-          +
-        </button>
+        <span>drag horizontally / click edges to snap</span>
       </footer>
     </div>
   } @else {
