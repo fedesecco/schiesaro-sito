@@ -1,6 +1,6 @@
 {
   "name": "schiesaro-sito",
-  "version": "0.1.3",
+  "version": "0.1.1",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
