@@ -3,7 +3,7 @@ name: Release Deploy to GitHub Pages
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - '*.*.*'
   workflow_dispatch:
 
 permissions:
