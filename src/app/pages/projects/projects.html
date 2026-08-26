@@ -1,50 +1,69 @@
 <div class="route-shell home-page screen-scroll" #scroller (scroll)="handleScroll()">
-  @let homeLatitude = splitCoordinate(home.coordinates.latitude);
-  @let homeLongitude = splitCoordinate(home.coordinates.longitude);
-
   @for (loopCopy of loopCopies; track loopCopy) {
     <div class="home-page__cycle">
       <section class="home-page__hero">
         <header class="site-chrome site-chrome--sticky home-page__hero-chrome">
           <div class="chrome-grid">
-            <span class="chrome-grid__left-major">{{ homeLatitude.major }}</span>
-            <span class="chrome-grid__left-minor">{{ homeLatitude.minor }}</span>
-            <a class="chrome-grid__brand" routerLink="/">{{ siteTitle }}</a>
-            <span class="chrome-grid__right-major">{{ homeLongitude.major }}</span>
-            <span class="chrome-grid__right-minor">{{ homeLongitude.minor }}</span>
+            <a class="chrome-grid__brand" routerLink="/" aria-label="Back to hero">
+              {{ siteTitle }}
+            </a>
           </div>
         </header>
 
         <div class="home-page__hero-media">
-          <img src="{{ home.heroPoster }}" alt="{{ home.heroLabel }}" />
+          <div class="home-page__video-placeholder" role="img" aria-label="Video placeholder">
+            <span>VIDEO</span>
+          </div>
         </div>
-        <div class="home-page__hero-label">{{ home.heroEyebrow }}</div>
       </section>
 
       @for (project of projects; track project.slug) {
-        @let projectLatitude = splitCoordinate(project.coordinates.latitude);
-        @let projectLongitude = splitCoordinate(project.coordinates.longitude);
-
-        <section class="project-card">
+        <section
+          class="project-card"
+          [attr.aria-labelledby]="'project-title-' + loopCopy + '-' + project.slug"
+        >
           <div class="site-chrome project-card__sticky">
-            <div class="project-card__coordinates chrome-grid">
-              <span class="chrome-grid__left-major">{{ projectLatitude.major }}</span>
-              <span class="chrome-grid__left-minor">{{ projectLatitude.minor }}</span>
-              <span class="chrome-grid__right-major">{{ projectLongitude.major }}</span>
-              <span class="chrome-grid__right-minor">{{ projectLongitude.minor }}</span>
-            </div>
+            @if (project.coordinates; as coordinates) {
+              @let projectLatitude = splitCoordinate(coordinates.latitude);
+              @let projectLongitude = splitCoordinate(coordinates.longitude);
+              <div class="project-card__coordinates chrome-grid">
+                <span class="chrome-grid__left-major">{{ projectLatitude.major }}</span>
+                <span class="chrome-grid__left-minor">{{ projectLatitude.minor }}</span>
+                <span class="chrome-grid__right-major">{{ projectLongitude.major }}</span>
+                <span class="chrome-grid__right-minor">{{ projectLongitude.minor }}</span>
+              </div>
+            }
           </div>
 
           <div class="layout-grid project-card__body">
             <div class="project-card__meta">
-              <button class="project-card__title" type="button" (click)="openProject(project.slug)">
+              <a
+                class="project-card__title"
+                [id]="'project-title-' + loopCopy + '-' + project.slug"
+                [routerLink]="['/projects', project.slug]"
+              >
                 {{ project.title }}
-              </button>
-              <span>{{ project.location }} ({{ project.country }})</span>
-              <span>{{ project.type }}</span>
-              <span>{{ project.area }}</span>
-              <span>Year {{ project.year }}</span>
-              <p>{{ project.teaser }}</p>
+              </a>
+              @if (project.location || project.country) {
+                <span>
+                  {{ project.location }}
+                  @if (project.country) {
+                    ({{ project.country }})
+                  }
+                </span>
+              }
+              @if (project.type; as type) {
+                <span>{{ type }}</span>
+              }
+              @if (project.area; as area) {
+                <span>{{ area }}</span>
+              }
+              @if (project.year; as year) {
+                <span>Year {{ year }}</span>
+              }
+              @if (project.teaser; as teaser) {
+                <p>{{ teaser }}</p>
+              }
             </div>
 
             <div class="project-gallery">
@@ -55,13 +74,16 @@
                   [class.is-landscape]="image.orientation === 'landscape'"
                   [class.is-portrait]="image.orientation === 'portrait'"
                   type="button"
+                  [attr.aria-label]="'Open ' + project.title + ', image ' + (imageIndex + 1)"
                   (click)="openProject(project.slug, imageIndex)"
                 >
                   <img
                     class="project-gallery__image"
                     [class.is-muted]="imageIndex > 0"
-                    src="{{ image.src }}"
-                    alt="{{ image.alt }}"
+                    [ngSrc]="image.src"
+                    [alt]="image.alt"
+                    [width]="image.width"
+                    [height]="image.height"
                     loading="lazy"
                   />
                 </button>

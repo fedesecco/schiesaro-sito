@@ -22,8 +22,8 @@
 
     <a
       class="landing-page__title"
-      [routerLink]="heroNavigationEnabled() ? homeRoute : null"
-      [attr.aria-disabled]="!heroNavigationEnabled()"
+      [routerLink]="homeRoute"
+      aria-label="Open projects"
     >
       <span>{{ siteTitle }}</span>
     </a>

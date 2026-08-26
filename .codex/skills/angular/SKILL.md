@@ -24,6 +24,14 @@ Use this skill for Angular work in this repository, especially when the task inv
 
 ## Project context
 
-- This repository uses Angular 20.x.
+- This repository uses Angular 21.x.
 - `@angular/material` and `@angular/cdk` are installed.
 - Keep changes consistent with the current workspace structure and CLI configuration.
+
+## Raw data ingestion
+
+- `raw/` is an immutable intake area for unprocessed external inputs: messages, shared-drive folders, documents, images and other material supplied by different people.
+- Read and understand raw material before implementing. Extract the useful facts, normalize them into typed application content under `src/app/content` or `src/app/models`, and copy only the usable binary assets into the correct runtime location, normally `public/`.
+- Leave `raw/` unchanged. Do not use `raw/` as a runtime asset root and do not add raw folders as Angular build inputs.
+- `angular.json` should publish `public/**/*`; application URLs must resolve to the organized public structure, for example `/projects/<source-folder>/<semantic-file>`. Keep the public folder identifier separate from the route slug.
+- Preserve source material that is not useful to the current page in `raw/`, rather than exposing it or inventing values to fill missing fields.

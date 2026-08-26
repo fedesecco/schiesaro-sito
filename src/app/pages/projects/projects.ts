@@ -1,12 +1,22 @@
-import { afterNextRender, Component, DestroyRef, ElementRef, inject, viewChild } from '@angular/core';
+import { NgOptimizedImage } from '@angular/common';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  viewChild,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { projectsData } from '../../content/projects-data';
 import { splitCoordinate } from '../../shared/utils/coordinates';
 
 @Component({
   selector: 'app-projects',
-  imports: [RouterLink],
+  imports: [NgOptimizedImage, RouterLink],
   templateUrl: './projects.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProjectsComponent {
   private readonly destroyRef = inject(DestroyRef);
@@ -18,15 +28,6 @@ export class ProjectsComponent {
 
   protected readonly loopCopies = Array.from({ length: this.loopCopiesCount }, (_, index) => index);
   protected readonly siteTitle = 'KOPIO OFFICE';
-  protected readonly home = {
-    coordinates: {
-      latitude: '45.793591',
-      longitude: '12.391915',
-    },
-    heroPoster: 'mock/media/home-video-still.svg',
-    heroLabel: 'Mock hero still for the fullscreen video area',
-    heroEyebrow: 'Mock video loop',
-  };
   protected readonly projects = projectsData;
   protected readonly splitCoordinate = splitCoordinate;
 
@@ -72,7 +73,15 @@ export class ProjectsComponent {
   }
 
   protected openProject(slug: string, imageIndex?: number): void {
-    const queryParams = imageIndex === undefined ? {} : { slide: imageIndex + 1 };
+    const project = this.projects.find((item) => item.slug === slug);
+
+    if (imageIndex === undefined) {
+      void this.router.navigate(['/projects', slug]);
+      return;
+    }
+
+    const textSlideOffset = project?.body?.length ? 1 : 0;
+    const queryParams = { slide: imageIndex + textSlideOffset + 1 };
     void this.router.navigate(['/projects', slug], { queryParams });
   }
 
