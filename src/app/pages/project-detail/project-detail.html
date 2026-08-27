@@ -1,74 +1,155 @@
 <section class="route-shell detail-page">
   @if (project(); as project) {
-    @let latitude = splitCoordinate(project.coordinates.latitude);
-    @let longitude = splitCoordinate(project.coordinates.longitude);
-
     <div class="detail-page__surface">
       <header class="site-chrome site-chrome--static detail-page__header">
-        <div class="detail-page__header-grid">
-          <div class="detail-page__coordinate detail-page__coordinate--left">
-            <span>{{ latitude.major }}</span>
-            <span>{{ latitude.minor }}</span>
-          </div>
-          <a class="detail-page__brand" routerLink="/home">{{ siteTitle }}</a>
-          <div class="detail-page__coordinate detail-page__coordinate--right">
-            <span>{{ longitude.major }}</span>
-            <span>{{ longitude.minor }}</span>
-          </div>
+        <div
+          class="detail-page__header-grid"
+          [class.detail-page__header-grid--without-coordinates]="!project.coordinates"
+        >
+          <a class="detail-page__brand" routerLink="/home" aria-label="Back to projects">
+            {{ siteTitle }}
+          </a>
         </div>
       </header>
+
+      @if (project.coordinates; as coordinates) {
+        @let latitude = splitCoordinate(coordinates.latitude);
+        @let longitude = splitCoordinate(coordinates.longitude);
+        <div class="detail-page__coordinates" role="group" aria-label="Project coordinates">
+          <span class="detail-page__coordinates-latitude-major">{{ latitude.major }}</span>
+          <span class="detail-page__coordinates-latitude-minor">{{ latitude.minor }}</span>
+          <span class="detail-page__coordinates-longitude-major">{{ longitude.major }}</span>
+          <span class="detail-page__coordinates-longitude-minor">{{ longitude.minor }}</span>
+        </div>
+      }
+
+      <h1 class="visually-hidden">{{ project.title }}</h1>
 
       <div
         class="detail-page__viewport"
         #viewport
+        tabindex="0"
+        role="region"
+        [attr.aria-label]="project.title + ' project gallery'"
         (click)="handleViewportClick($event)"
+        (keydown)="handleViewportKeydown($event)"
+        (touchstart)="handleViewportTouchStart()"
         (pointerdown)="handleViewportPointerDown($event)"
         (pointermove)="handleViewportPointerMove($event)"
         (pointerup)="handleViewportPointerUp($event)"
         (pointercancel)="handleViewportPointerUp($event)"
         (scroll)="handleViewportScroll()"
         (wheel)="handleViewportWheel($event)"
-      >
+        >
+        <button
+          class="detail-page__edge-control detail-page__edge-control--previous"
+          type="button"
+          aria-label="Previous slide"
+          [disabled]="isFirstSlide()"
+          (click)="previousSlide()"
+        ></button>
+        <button
+          class="detail-page__edge-control detail-page__edge-control--next"
+          type="button"
+          aria-label="Next slide"
+          [disabled]="isLastSlide()"
+          (click)="nextSlide()"
+        ></button>
         <div class="detail-page__track">
           @for (slide of slides(); track trackSlide($index, slide); let slideIndex = $index) {
             @if (slide.kind === 'text') {
-              <section class="detail-slide detail-slide--text" [attr.data-slide-index]="slideIndex">
-                <div class="detail-slide__text layout-grid">
+              <article
+                class="detail-slide detail-slide--text"
+                role="group"
+                aria-roledescription="slide"
+                [attr.aria-label]="slideAriaLabel(slideIndex)"
+                [attr.aria-current]="isActiveSlide(slideIndex) ? 'true' : null"
+                [attr.data-slide-index]="slideIndex"
+              >
+                <div class="detail-slide__text">
                   <div class="detail-page__meta">
-                    <span>{{ project.title }}</span>
-                    <span>{{ project.location }} ({{ project.country }})</span>
-                    <span>{{ project.type }}</span>
-                    <span>{{ project.area }}</span>
-                    <span>Year {{ project.year }}</span>
+                    <h2 class="detail-page__project-title">{{ project.title }}</h2>
+                    @if (project.location || project.country) {
+                      <span>
+                        {{ project.location }}
+                        @if (project.country) {
+                          ({{ project.country }})
+                        }
+                      </span>
+                    }
+                    @if (project.type; as type) {
+                      <span>{{ type }}</span>
+                    }
+                    @if (project.area; as area) {
+                      <span>{{ area }}</span>
+                    }
+                    @if (project.year; as year) {
+                      <span>Year {{ year }}</span>
+                    }
                   </div>
 
-                  <div class="detail-page__copy">
-                    <p>{{ project.body }}</p>
-                  </div>
+                  @if (project.body; as paragraphs) {
+                    <div class="detail-page__copy">
+                      @for (paragraph of paragraphs; track $index) {
+                        <p>{{ paragraph }}</p>
+                      }
+                    </div>
+                  }
                 </div>
-              </section>
+              </article>
             } @else {
-              <section
+              <article
                 class="detail-slide detail-slide--image"
+                role="group"
+                aria-roledescription="slide"
                 [class.is-portrait]="slide.image.orientation === 'portrait'"
                 [class.is-landscape]="slide.image.orientation === 'landscape'"
+                [attr.aria-label]="slideAriaLabel(slideIndex)"
+                [attr.aria-current]="isActiveSlide(slideIndex) ? 'true' : null"
                 [attr.data-slide-index]="slideIndex"
               >
                 <div class="detail-page__content detail-page__content--image">
-                  <figure class="detail-page__figure">
-                    <img src="{{ slide.image.src }}" alt="{{ slide.image.alt }}" />
+                  <figure
+                    class="detail-page__figure"
+                  >
+                    <img
+                      [ngSrc]="slide.image.src"
+                      [alt]="slide.image.alt"
+                      [width]="slide.image.width"
+                      [height]="slide.image.height"
+                      [priority]="slideIndex === firstImageSlideIndex()"
+                    />
                   </figure>
                 </div>
-              </section>
+              </article>
             }
           }
         </div>
       </div>
 
-      <footer class="detail-page__footer">
-        <span>{{ currentSlideNumber() }}</span>
-        <span>drag horizontally / click edges to snap</span>
-      </footer>
+      <nav class="detail-page__footer" aria-label="Project slides">
+        <div class="detail-page__footer-controls">
+          <button
+            class="detail-page__control"
+            type="button"
+            aria-label="Previous slide"
+            [disabled]="isFirstSlide()"
+            (click)="previousSlide()"
+          >
+            <span class="detail-page__control-symbol" aria-hidden="true">‹</span>
+          </button>
+          <span class="detail-page__counter" aria-live="polite">{{ currentSlideNumber() }}</span>
+          <button
+            class="detail-page__control detail-page__control--next"
+            type="button"
+            aria-label="Next slide"
+            [disabled]="isLastSlide()"
+            (click)="nextSlide()"
+          >
+            <span class="detail-page__control-symbol" aria-hidden="true">›</span>
+          </button>
+        </div>
+      </nav>
     </div>
   } @else {
     <div class="detail-page__missing">

@@ -4,8 +4,9 @@ export interface ProjectMedia {
   id: string;
   src: string;
   alt: string;
-  caption: string;
   orientation: MediaOrientation;
+  width: number;
+  height: number;
 }
 
 export interface ProjectCoordinates {
@@ -16,14 +17,13 @@ export interface ProjectCoordinates {
 export interface ProjectContent {
   slug: string;
   title: string;
-  location: string;
-  country: string;
-  type: string;
-  area: string;
-  year: string;
-  coordinates: ProjectCoordinates;
-  teaser: string;
-  body: string;
-  details: string[];
+  location?: string;
+  country?: string;
+  type?: string;
+  area?: string;
+  year?: string;
+  coordinates?: ProjectCoordinates;
+  teaser?: string;
+  body?: string[];
   images: ProjectMedia[];
 }

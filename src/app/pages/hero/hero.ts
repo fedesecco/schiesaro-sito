@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, computed, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  computed,
+  signal,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CoordinateParts } from '../../shared/utils/coordinates';
 
@@ -6,6 +13,7 @@ import { CoordinateParts } from '../../shared/utils/coordinates';
   selector: 'app-hero',
   imports: [RouterLink],
   templateUrl: './hero.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroComponent implements OnInit, OnDestroy {
   private readonly coordinateMin = 10;
@@ -21,7 +29,6 @@ export class HeroComponent implements OnInit, OnDestroy {
   };
 
   protected readonly siteTitle = 'KOPIO OFFICE';
-  protected readonly heroNavigationEnabled = signal(false);
   protected readonly homeRoute = '/home';
   protected readonly showMotionPrompt = computed(
     () => this.isCoarsePointer() && this.motionSupported() && !this.motionEnabled() && !this.motionDenied(),
