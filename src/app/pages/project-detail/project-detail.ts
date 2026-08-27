@@ -41,7 +41,12 @@ export class ProjectDetailComponent {
       initialValue: parseRequestedSlide(this.route.snapshot.queryParamMap.get('slide')),
     },
   );
-  private readonly currentSlideIndex = signal(0);
+  private readonly currentSlideIndex = signal(
+    getInitialSlideIndex(
+      this.route.snapshot.paramMap.get('slug'),
+      this.route.snapshot.queryParamMap.get('slide'),
+    ),
+  );
   private isPointerDown = false;
   private isDragging = false;
   private suppressClick = false;
@@ -82,6 +87,12 @@ export class ProjectDetailComponent {
     }
 
     return `${this.currentSlideIndex() + 1}/${slides.length}`;
+  });
+  protected readonly isFirstSlide = computed(() => this.currentSlideIndex() === 0);
+  protected readonly isLastSlide = computed(() => {
+    const slides = this.slides();
+
+    return !slides.length || this.currentSlideIndex() >= slides.length - 1;
   });
   protected readonly splitCoordinate = splitCoordinate;
 
@@ -134,11 +145,12 @@ export class ProjectDetailComponent {
   }
 
   protected handleViewportPointerDown(event: PointerEvent): void {
-    if (window.matchMedia('(max-width: 720px)').matches) {
+    if (event.button !== 0 || window.matchMedia('(max-width: 720px)').matches) {
       return;
     }
 
     this.allowScrollRouteUpdate = true;
+    this.isPointerDown = true;
     this.isDragging = false;
     this.suppressClick = false;
     this.pointerStartX = event.clientX;
@@ -222,6 +234,7 @@ export class ProjectDetailComponent {
     const viewport = this.viewportRef().nativeElement;
 
     if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+      this.allowScrollRouteUpdate = true;
       return;
     }
 
@@ -247,15 +260,16 @@ export class ProjectDetailComponent {
     }
 
     const bounds = this.viewportRef().nativeElement.getBoundingClientRect();
-    const edgeWidth = bounds.width * 0.18;
+
+    const edgeWidth = Math.min(bounds.width, window.innerWidth) * 0.2;
     const offsetX = event.clientX - bounds.left;
 
-    if (offsetX < edgeWidth) {
+    if (offsetX <= edgeWidth) {
       this.previousSlide();
       return;
     }
 
-    if (offsetX > bounds.width - edgeWidth) {
+    if (offsetX >= bounds.width - edgeWidth) {
       this.nextSlide();
       return;
     }
@@ -265,24 +279,24 @@ export class ProjectDetailComponent {
 
   protected previousSlide(): void {
     const slides = this.slides();
+    const currentIndex = this.currentSlideIndex();
 
-    if (!slides.length) {
+    if (!slides.length || currentIndex <= 0) {
       return;
     }
 
-    const nextIndex = (this.currentSlideIndex() - 1 + slides.length) % slides.length;
-    this.setSlide(nextIndex, 'smooth');
+    this.setSlide(currentIndex - 1, 'smooth');
   }
 
   protected nextSlide(): void {
     const slides = this.slides();
+    const currentIndex = this.currentSlideIndex();
 
-    if (!slides.length) {
+    if (!slides.length || currentIndex >= slides.length - 1) {
       return;
     }
 
-    const nextIndex = (this.currentSlideIndex() + 1) % slides.length;
-    this.setSlide(nextIndex, 'smooth');
+    this.setSlide(currentIndex + 1, 'smooth');
   }
 
   protected trackSlide(_: number, slide: DetailSlide): string {
@@ -291,6 +305,7 @@ export class ProjectDetailComponent {
 
   private setSlide(index: number, behavior: ScrollBehavior): void {
     const nextIndex = clampIndex(index, Math.max(0, this.slides().length - 1));
+    this.allowScrollRouteUpdate = false;
     this.currentSlideIndex.set(nextIndex);
     this.scrollToSlide(nextIndex, behavior);
     this.updateRoute(nextIndex);
@@ -361,6 +376,13 @@ export class ProjectDetailComponent {
         this.syncFromRoute = true;
       });
   }
+}
+
+function getInitialSlideIndex(slug: string | null, requestedSlide: string | null): number {
+  const project = getProjectBySlug(slug);
+  const slideCount = (project?.body?.length ? 1 : 0) + (project?.images.length ?? 0);
+
+  return clampIndex(parseRequestedSlide(requestedSlide), Math.max(0, slideCount - 1));
 }
 
 function parseRequestedSlide(value: string | null): number {

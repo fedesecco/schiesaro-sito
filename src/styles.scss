@@ -445,26 +445,21 @@ app-root,
 
 .detail-page__header-grid {
   display: grid;
-  grid-template-columns:
-    minmax(5rem, 8rem)
-    minmax(2rem, 1fr)
-    minmax(18rem, 36rem)
-    minmax(2rem, 1fr)
-    minmax(5rem, 8rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: end;
-  padding-inline: var(--page-pad);
+  padding-inline: 15px;
 }
 
 .detail-page__header-grid--without-coordinates {
-  grid-template-columns: minmax(0, 1fr) minmax(18rem, 36rem) minmax(0, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .detail-page__coordinates {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr) auto auto minmax(0, 1fr);
   align-items: start;
-  column-gap: clamp(0.75rem, 2vw, 2rem);
-  padding: 0 var(--page-pad) clamp(0.5rem, 1vw, 0.9rem);
+  column-gap: 15px;
+  padding: 0 15px clamp(0.5rem, 1vw, 0.9rem);
   font-size: clamp(0.9rem, 1.05vw, 1.1rem);
   line-height: 0.92;
   font-variant-numeric: tabular-nums;
@@ -477,7 +472,7 @@ app-root,
 
 .detail-page__coordinates-latitude-minor {
   grid-column: 2;
-  justify-self: start;
+  justify-self: end;
 }
 
 .detail-page__coordinates-longitude-major {
@@ -492,7 +487,7 @@ app-root,
 
 
 .detail-page__brand {
-  grid-column: 3 / 6;
+  grid-column: 2;
   justify-self: start;
   font-family: var(--display-font);
   font-size: clamp(3rem, 6vw, 5.3rem);
@@ -503,7 +498,7 @@ app-root,
 }
 
 .detail-page__header-grid--without-coordinates .detail-page__brand {
-  grid-column: 2;
+  grid-column: 1 / -1;
   justify-self: center;
 }
 
@@ -517,6 +512,7 @@ app-root,
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   overscroll-behavior: contain;
+  touch-action: pan-y;
   cursor: default;
 }
 
@@ -533,7 +529,7 @@ app-root,
   top: 0;
   bottom: 0;
   z-index: 8;
-  width: 18%;
+  width: 20vw;
   background: transparent;
 }
 
@@ -547,18 +543,24 @@ app-root,
   cursor: e-resize;
 }
 
+.detail-page__edge-control:disabled {
+  cursor: default;
+}
+
 .detail-page__track {
   display: flex;
   align-items: stretch;
-  gap: clamp(1.25rem, 2vw, 2rem);
+  width: max-content;
+  min-width: 100%;
+  gap: 15px;
   min-height: 100%;
-  padding:
-    clamp(0.4rem, 1vw, 0.8rem) clamp(2.5rem, 6vw, 5rem)
-    4rem;
+  padding: 0 5vw 4rem 15px;
 }
 
 .detail-slide {
-  flex: 0 0 min(90vw, 88rem);
+  width: 90vw;
+  min-width: 90vw;
+  flex: 0 0 90vw;
   scroll-snap-align: center;
   scroll-snap-stop: always;
   min-height: calc(100svh - var(--chrome-height) - 4rem);
@@ -567,7 +569,7 @@ app-root,
 .detail-slide--text {
   display: flex;
   align-items: flex-start;
-  flex-basis: min(96vw, 86rem);
+  flex-basis: 90vw;
   padding-top: clamp(1rem, 3vh, 2.25rem);
 }
 
@@ -584,12 +586,9 @@ app-root,
   align-items: stretch;
 }
 
-.detail-slide--image.is-portrait {
-  flex-basis: min(36vw, 30rem);
-}
-
+.detail-slide--image.is-portrait,
 .detail-slide--image.is-landscape {
-  flex-basis: min(78vw, 74rem);
+  flex-basis: 90vw;
 }
 
 .detail-page__content {
@@ -643,7 +642,7 @@ app-root,
 }
 
 .detail-slide--image.is-landscape .detail-page__figure {
-  width: min(100%, 74rem);
+  width: 100%;
 }
 
 .detail-page__figure {
@@ -691,6 +690,10 @@ app-root,
 
 .detail-page__control:hover {
   opacity: 0.62;
+}
+.detail-page__control:disabled {
+  cursor: default;
+  opacity: 0.35;
 }
 
 .detail-page__control-symbol {
@@ -973,8 +976,20 @@ code {
 
 
   .detail-page__coordinates {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     column-gap: 0.5rem;
+    padding-inline: var(--page-pad);
     font-size: 0.92rem;
+  }
+
+  .detail-page__coordinates-latitude-major,
+  .detail-page__coordinates-latitude-minor,
+  .detail-page__coordinates-longitude-major {
+    justify-self: start;
+  }
+
+  .detail-page__coordinates-longitude-minor {
+    justify-self: end;
   }
 
   .detail-page__viewport {
@@ -990,12 +1005,16 @@ code {
 
   .detail-page__track {
     display: grid;
+    width: 100%;
+    min-width: 0;
     gap: 1.5rem;
     min-height: 0;
     padding: 0 0 5.5rem;
   }
 
   .detail-slide {
+    width: auto;
+    min-width: 0;
     min-height: auto;
   }
 

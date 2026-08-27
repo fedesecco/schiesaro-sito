@@ -45,12 +45,14 @@
           class="detail-page__edge-control detail-page__edge-control--previous"
           type="button"
           aria-label="Previous slide"
+          [disabled]="isFirstSlide()"
           (click)="previousSlide()"
         ></button>
         <button
           class="detail-page__edge-control detail-page__edge-control--next"
           type="button"
           aria-label="Next slide"
+          [disabled]="isLastSlide()"
           (click)="nextSlide()"
         ></button>
         <div class="detail-page__track">
@@ -131,6 +133,7 @@
             class="detail-page__control"
             type="button"
             aria-label="Previous slide"
+            [disabled]="isFirstSlide()"
             (click)="previousSlide()"
           >
             <span class="detail-page__control-symbol" aria-hidden="true">‹</span>
@@ -140,6 +143,7 @@
             class="detail-page__control detail-page__control--next"
             type="button"
             aria-label="Next slide"
+            [disabled]="isLastSlide()"
             (click)="nextSlide()"
           >
             <span class="detail-page__control-symbol" aria-hidden="true">›</span>
